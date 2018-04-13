@@ -40,7 +40,7 @@ DB_PASSWORD=secret
 php artisan migrate --seed
 ```
 
-OK,项目已经配置完成，直接访问首页然后登录即可，不清楚路由的可以直接去看 `routes/web.php` 文件。默认管理员账号：`admin` , 密码：`xiaojiejie520` 。如果你是在 `Linux` 或 `Mac` 下配置的请注意相关目录的权限
+OK,项目已经配置完成，直接访问首页然后登录即可，不清楚路由的可以直接去看 `routes/web.php` 文件。默认管理员账号：`admin` , 密码：`xiaojiejie520` 。
 
 ## 转载说明
 `any` 项目，我是在[https://github.com/lanceWan/any.git](https://github.com/lanceWan/any.git)处转载,仅仅作为学习使用
