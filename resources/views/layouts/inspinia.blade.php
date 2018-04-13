@@ -30,7 +30,6 @@
                     <li>
                         <a id="logout-a">
                             <i class="fa fa-sign-out"></i>
-                            {{ trans('common.logout') }}
                             <form id="logout-form" action="{{ route('admin.logout') }}" method="POST"
                                   style="display: none;">
                                 {{ csrf_field() }}
