@@ -28,10 +28,10 @@
                     </li>
 
                     <li>
-                        <a href="{{ url('logout') }}"
+                        <a href="{{ route('admin.logout') }}"
                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                             <i class="fa fa-sign-out"></i> {{trans('common.logout')}}
-                            <form id="logout-form" action="{{ url('/logout') }}" method="POST"
+                            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST"
                                   style="display: none;">{{ csrf_field() }}</form>
                         </a>
                     </li>
