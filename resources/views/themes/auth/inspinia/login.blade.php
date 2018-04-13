@@ -2,7 +2,7 @@
 <html lang="{{ config('app.locale') }}">
 <head>
     <meta charset="utf-8"/>
-    <title>{{ config('app.name') }} -- 后台登录</title>
+    <title>{{ config('app.name') }} -- 后台管理系统</title>
     <link rel="stylesheet" type="text/css" href="{{asset(getThemeAssets('css/login.css'))}}"/>
     <style>
         body {
