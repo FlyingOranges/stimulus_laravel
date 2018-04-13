@@ -24,7 +24,9 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
-                        <span class="m-r-sm text-muted welcome-message">Hi,{{auth()->user()->name}}</span>
+                        <span class="m-r-sm text-muted welcome-message">
+                            Hi,<span id="admin-model" style="cursor:pointer;">{{auth()->user()->name}}</span>
+                        </span>
                     </li>
 
                     <li>
@@ -50,10 +52,54 @@
                 </strong>
             </div>
             <div>
-                <strong>Copyright</strong> 通用后台 &copy; http://www.xxx.me
+                <strong>Copyright</strong> 通用后台 &copy; http://www.xxx.com
             </div>
         </div>
 
+    </div>
+</div>
+<div class="modal inmodal" id="adminModel" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">管理员信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+
+                    <div class="hr-line-dashed no-margins"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label"></label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">超级管理员</p>
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed no-margins"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">名称</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">超级管理员</p>
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed no-margins"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">名称</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">超级管理员</p>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
     </div>
 </div>
 <script src="{{asset(getThemeAssets('jquery/jquery-2.1.1.js', true))}}"></script>
@@ -66,6 +112,10 @@
 <script>
     $('#logout-a').on('click', function () {
         $('#logout-form').submit();
+    });
+
+    $('#admin-model').on('click', function () {
+        $('#adminModel').modal('show');
     });
 </script>
 </body>
