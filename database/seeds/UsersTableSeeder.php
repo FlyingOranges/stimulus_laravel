@@ -14,10 +14,10 @@ class UsersTableSeeder extends Seeder
         $user = Role::where('slug','user')->first();
 
         factory('App\User', 1)->create([
-            'name' => '晚黎',
-            'username' => 'iwanli',
-            'email' => '709344897@qq.com',
-            'password' => bcrypt('123456')
+            'name' => '洗头只用海飞丝',
+            'username' => 'admin',
+            'email' => 'aileshang0226@163.com',
+            'password' => bcrypt('xiaojiejie520')
         ])->each(function ($u) use ($admin){
             $u->attachRole($admin);
         });
