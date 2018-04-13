@@ -4,19 +4,21 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Route;
+
 class CheckPermissionMiddleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
         return $this->checkPermission() ? $next($request) : abort(500, '没有权限访问');
     }
+
     /**
      * 验证用户权限
      * @author 晚黎
@@ -27,38 +29,41 @@ class CheckPermissionMiddleware
     {
         $method = $this->getCurrentControllerMethod();
         $actionName = $this->getCurrentControllerName();
-        return haspermission(strtolower($actionName.'.'.$method));
+        return haspermission(strtolower($actionName . '.' . $method));
     }
+
     /**
      * 获取当前控制器方法
      * @author 晚黎
      * @date   2017-07-24T14:23:52+0800
      * @return [type]                   [description]
      */
-    private function getCurrentControllerMethod()  
-    {  
+    private function getCurrentControllerMethod()
+    {
         return $this->getCurrentActionAttribute()['method'];
     }
+
     /**
      * 获取当前控制器名称
      * @author 晚黎
      * @date   2017-07-24T14:24:04+0800
      * @return [type]                   [description]
      */
-    private function getCurrentControllerName()  
-    {  
+    private function getCurrentControllerName()
+    {
         return $this->getCurrentActionAttribute()['controller'];
-    }  
+    }
+
     /**
      * 获取当前控制器相关属性
      * @author 晚黎
      * @date   2017-07-24T14:24:14+0800
      * @return [type]                   [description]
      */
-    private function getCurrentActionAttribute()  
-    {  
+    private function getCurrentActionAttribute()
+    {
         $action = Route::currentRouteAction();
         list($class, $method) = explode('@', $action);
         return ['controller' => class_basename($class), 'method' => $method];
-    } 
+    }
 }

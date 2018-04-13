@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -58,14 +59,14 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return view('themes.auth.'.getTheme().'.login');
+        return view('themes.auth.' . getTheme() . '.login');
     }
-    
+
     /**
      * 用户登录成功后缓存用户权限
      * @author 晚黎
      * @date   2017-11-06
-     * @param  Request    $request [description]
+     * @param  Request $request [description]
      * @param  [type]     $user    [description]
      * @return [type]              [description]
      */
@@ -74,5 +75,19 @@ class LoginController extends Controller
         // 缓存用户权限
         setUserPermissions($user);
         return redirect()->intended($this->redirectPath());
+    }
+
+    /**
+     * 重构后台管理系统登出方法
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout(Request $request)
+    {
+        Auth::guard()->logout();
+        $request->session()->invalidate();
+
+        return redirect()->route('login');
     }
 }

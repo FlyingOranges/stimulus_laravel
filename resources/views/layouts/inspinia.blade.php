@@ -28,11 +28,13 @@
                     </li>
 
                     <li>
-                        <a href="{{ route('admin.logout') }}"
-                           onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                            <i class="fa fa-sign-out"></i> {{trans('common.logout')}}
+                        <a id="logout-a">
+                            <i class="fa fa-sign-out"></i>
+                            {{ trans('common.logout') }}
                             <form id="logout-form" action="{{ route('admin.logout') }}" method="POST"
-                                  style="display: none;">{{ csrf_field() }}</form>
+                                  style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
                         </a>
                     </li>
                 </ul>
@@ -61,5 +63,11 @@
 <script src="{{asset(getThemeAssets('slimscroll/jquery.slimscroll.min.js', true))}}"></script>
 <script src="{{asset(getThemeAssets('js/inspinia.js'))}}"></script>
 @yield('js')
+
+<script>
+    $('#logout-a').on('click', function () {
+        $('#logout-form').submit();
+    });
+</script>
 </body>
 </html>
