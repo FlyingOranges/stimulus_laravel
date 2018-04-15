@@ -1,6 +1,7 @@
 <?php
 
 Route::group([], function ($router) {
+
     /**
      * 登录模块 The login module
      */
