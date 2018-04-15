@@ -70,33 +70,31 @@
             <div class="modal-body">
                 <form class="form-horizontal">
 
-                    <div class="hr-line-dashed no-margins"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label"></label>
-                        <div class="col-sm-8">
-                            <p class="form-control-static">超级管理员</p>
+                        <label class="col-sm-2 control-label">昵称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control admin-name" value="{{ auth()->user()->name }}">
                         </div>
                     </div>
 
-                    <div class="hr-line-dashed no-margins"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">名称</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-static">超级管理员</p>
+                        <label class="col-sm-2 control-label">账号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" value="{{ auth()->user()->username }}" readonly>
                         </div>
                     </div>
 
-                    <div class="hr-line-dashed no-margins"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">名称</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-static">超级管理员</p>
+                        <label class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control admin-password" placeholder="不填表示不更新">
                         </div>
                     </div>
 
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" id="save-admin" class="btn btn-primary">更新</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>
@@ -117,6 +115,31 @@
     $('#admin-model').on('click', function () {
         $('#adminModel').modal('show');
     });
+
+    $('#save-admin').on('click', function () {
+        var name = $('.admin-name').val();
+        var password = $('.admin-password').val();
+
+        var url = "{{ route('admin.setting.adminer') }}";
+        var data = {name: name, password: password};
+
+        $.ajax({
+            url: url, data: data, type: "post", dataType: 'json',
+            headers: {'x-csrf-token': $('meta[name="csrf-token"]').attr('content')},
+            success: function (e) {
+                if (e.status == 200) {
+                    alert('更新成功');
+                    return false;
+                }
+                if (e.status == 401) {
+                    alert('更新失败');
+                    return false;
+                }
+            }
+        });
+
+    });
+
 </script>
 </body>
 </html>

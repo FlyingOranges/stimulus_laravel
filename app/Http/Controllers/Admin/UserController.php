@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Services\Admin\UserService;
 use App\Http\Requests\Admin\UserRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends BaseController
 {
@@ -96,5 +98,18 @@ class UserController extends BaseController
     {
         $this->service->destroy($id);
         return redirect()->route('user.index');
+    }
+
+    /**
+     * 设定管理员昵称和密码
+     *
+     * @param Request $request
+     * @return string
+     */
+    public function setting(Request $request)
+    {
+        $result = $this->service->update_admin_name_password($request->all(), Auth::id());
+
+        return json_encode($result);
     }
 }
