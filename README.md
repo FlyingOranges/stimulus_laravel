@@ -1,11 +1,6 @@
 # Any
 最简化权限管理系统，基于 Laravel5.5 开发。
 
-## Any 特点
-- 基于控制器方法权限控制
-
-> 这些只是基础功能的开始，希望得到更多的灵感
-
 ## 安装 Any
 下载本项目代码到本地：
 ```
@@ -23,6 +18,8 @@ composer install
 配置 `.env` 文件：
 ```
 [sudo]cp .env.example .env
+
+php artisan key:generate
 ```
 
 > Linux 和 Mac 下注意执行权限 !
