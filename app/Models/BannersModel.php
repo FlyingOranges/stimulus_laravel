@@ -24,6 +24,36 @@ class BannersModel extends Model
         return time();
     }
 
+    //TODO 后台管理系统获取轮播图信息
+    public function getBannersList($serch, $page = 1)
+    {
+        $data = Cache::remember('GET_CACHE_BANNERS_DATA_PAGE_' . $page . '_SERCH_' . $serch, 5,
+            function () use ($serch, $page) {
+                return $this->where('status', self::STATUS_NORMAL)
+                    ->when($serch, function ($query) use ($serch) {
+                        $query->where('title', 'like', "%{$serch}%");
+                    })
+                    ->paginate(5, ['id', 'title', 'link', 'src', 'created_at', 'updated_at']);
+            });
+
+        return $data;
+    }
+
+    /**
+     * Tag 创建新的数据
+     *
+     * Users Flying Oranges
+     * CreateTime 2018/8/13
+     * @param $data
+     * @return mixed
+     */
+    public function createdData($data)
+    {
+        $result = $this->create($data);
+
+        return $result;
+    }
+
     /**
      * Tag 获取首页banner数据
      *
