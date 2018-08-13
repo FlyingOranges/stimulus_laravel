@@ -37,7 +37,8 @@ DB_PASSWORD=secret
 php artisan migrate --seed
 ```
 
+然后执行项目根目录之下的database.sql文件
+
 OK,项目已经配置完成，直接访问首页然后登录即可，不清楚路由的可以直接去看 `routes/admin.php` 文件。默认管理员账号：`admin` , 密码：`123456` 。
 
-## 转载说明
-`any` 项目，我是在[https://github.com/lanceWan/any.git](https://github.com/lanceWan/any.git)处转载,仅仅作为学习使用。
+这个项目是配合之前的vue项目做的接口,写得很随意 仅仅是为了配合vue操作而存在的 vue项目地址
