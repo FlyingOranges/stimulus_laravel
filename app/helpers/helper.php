@@ -147,3 +147,90 @@ if(!function_exists('haspermission')){
         return $check;
 	}
 }
+
+if (!function_exists('apiSuccess')) {
+
+    /**
+     * Tag 正确回传
+     *
+     * Users Flying Oranges
+     * CreateTime 2018/8/7
+     * @param string $message
+     * @param array $data
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function apiSuccess($message, $data = [])
+    {
+        $json = [
+            'code' => 0,
+            'message' => $message,
+            'data' => $data
+        ];
+
+        return response()->json($json);
+    }
+}
+
+if (!function_exists('apiErrors')) {
+
+    /**
+     * Tag 错误信息回传
+     *
+     * Users Flying Oranges
+     * CreateTime 2018/8/7
+     * @param $message
+     * @param int $code
+     * @param array $data
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function apiErrors($message, $code = 101, $data = [])
+    {
+        $json = [
+            'code' => $code,
+            'message' => $message,
+            'data' => $data
+        ];
+
+        return response()->json($json);
+    }
+}
+
+if (!function_exists('getCover')) {
+    /**
+     * Tag 获取图片信息
+     *
+     * Users Flying Oranges
+     * CreateTime 2018/8/7
+     * @param $id
+     * @return mixed|object
+     */
+    function getCover($id)
+    {
+        $imageInfo = \App\Models\PictureModel::getFind($id);
+        if ($imageInfo != null) {
+            $imageInfo->path = asset($imageInfo->path);
+            return $imageInfo;
+        }
+
+        return (object)[
+            'path' => asset('/images/default.png'),
+            'width' => '200',
+            'height' => '200'
+        ];
+    }
+}
+
+if (!function_exists('myLog')) {
+    /**
+     * 打印日志
+     *
+     * @param $val
+     */
+    function myLog($val)
+    {
+        if (is_array($val)) {
+            $val = var_export($val, true);
+        }
+        file_put_contents('myLog.txt', date('Y-m-d H:i:s', time()) . '  myLog:  ' . $val . "\r\n", FILE_APPEND);
+    }
+}

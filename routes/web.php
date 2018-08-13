@@ -14,6 +14,20 @@ Route::get('/', function () {
     return view('welcome');
 })->name('index');
 
+Route::group(['prefix' => 'api'], function ($router) {
 
+    //首页数据
+    $router->group(['prefix' => 'index'], function ($router) {
+        //首页数据
+        $router->get('/', 'IndexController@indexPage');
+    });
 
+    //图文列表
+    $router->group(['prefix' => 'article'], function ($router) {
+        $router->get('/lists', 'ArticlesController@lists');
+
+        $router->get('/info/{id}', 'ArticlesController@articles');
+    });
+
+});
 
