@@ -41,4 +41,4 @@ php artisan migrate --seed
 
 OK,项目已经配置完成，直接访问首页然后登录即可，不清楚路由的可以直接去看 `routes/admin.php` 文件。默认管理员账号：`admin` , 密码：`123456` 。
 
-这个项目是配合之前的vue项目做的接口,写得很随意 仅仅是为了配合vue操作而存在的 vue项目地址
+这个项目是配合之前的vue项目做的接口,写得很随意 仅仅是为了配合vue操作而存在的 <a href="https://github.com/FlyingOranges/stimulus_vue" target="_blank">vue项目地址</a>
