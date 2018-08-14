@@ -10,7 +10,10 @@
 
 return [
     'title' => '轮播管理',
-    'name' => '呢称',
+    'name' => '标题',
     'username' => '用户名',
     'slug' => '轮播图',
+    'viewList' => '轮播图列表',
+    'link' => '链接',
+    'src' => '图片'
 ];

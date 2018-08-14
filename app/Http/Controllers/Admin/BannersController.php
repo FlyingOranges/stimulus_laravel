@@ -85,7 +85,11 @@ class BannersController extends Controller
      */
     public function show($id)
     {
-        //
+        $BannersModel = new BannersModel();
+
+        $data = $BannersModel->getFind($id);
+
+        return view(getThemeView('banner.show'), ['data' => $data]);
     }
 
     /**

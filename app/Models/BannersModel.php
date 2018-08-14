@@ -24,6 +24,16 @@ class BannersModel extends Model
         return time();
     }
 
+    //TODO 单条banner信息
+    public function getFind($id)
+    {
+        $data = Cache::remember('GET_CACHE_BANNER_FIND_INFO_ID_' . $id, 60 * 24, function () use ($id) {
+            return $this->where('id', decodeId($id))->first(['id', 'title', 'link', 'src', 'created_at', 'updated_at']);
+        });
+
+        return $data;
+    }
+
     //TODO 后台管理系统获取轮播图信息
     public function getBannersList($serch, $page = 1)
     {
