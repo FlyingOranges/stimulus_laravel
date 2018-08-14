@@ -157,6 +157,13 @@ class BannersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $BannersModel = new BannersModel();
+        $int = $BannersModel->deleteData($id);
+
+        if (!$int) {
+            return apiErrors('删除失败');
+        }
+
+        return apiSuccess('删除成功');
     }
 }

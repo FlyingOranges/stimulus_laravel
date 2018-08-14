@@ -25,6 +25,28 @@ class BannersModel extends Model
     }
 
     /**
+     * Tag 删除banner数据
+     *
+     * Users Flying Oranges
+     * CreateTime 2018/8/14
+     * @param $id
+     * @return mixed
+     */
+    public function deleteData($id)
+    {
+        $int = $this->where('id', decodeId($id))->update(['status' => self::STATUS_DELETE]);
+
+        if ($int) {
+            //清理单条banner信息缓存
+            Cache::forget('GET_CACHE_BANNER_FIND_INFO_ID_' . $id);
+            //清理Api接口首页banner缓存
+            Cache::forget('GET_CACHE_BANNER_INDEX_PAGE');
+        }
+
+        return $int;
+    }
+
+    /**
      * Tag 更新banner信息
      *
      * Users Flying Oranges
@@ -74,16 +96,16 @@ class BannersModel extends Model
      */
     public function getBannersList($serch, $page = 1)
     {
-        $data = Cache::remember('GET_CACHE_BANNERS_DATA_PAGE_' . $page . '_SERCH_' . $serch, 5,
-            function () use ($serch, $page) {
+//        $data = Cache::remember('GET_CACHE_BANNERS_DATA_PAGE_' . $page . '_SERCH_' . $serch, 5,
+//            function () use ($serch, $page) {
                 return $this->where('status', self::STATUS_NORMAL)
                     ->when($serch, function ($query) use ($serch) {
                         $query->where('title', 'like', "%{$serch}%");
                     })
                     ->paginate(5, ['id', 'title', 'link', 'src', 'created_at', 'updated_at']);
-            });
+//            });
 
-        return $data;
+//        return $data;
     }
 
     /**

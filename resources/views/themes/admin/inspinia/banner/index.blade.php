@@ -109,6 +109,7 @@
                                                         <i class="fa fa-edit"></i>
                                                     </a>
                                                     <a href="javascript:;"
+                                                       data-url="{{ route('banners.destroy',['id'=>encodeId($item->id)]) }}"
                                                        class="btn btn-xs btn-outline btn-danger tooltips destroy_item">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
@@ -139,18 +140,32 @@
     </div>
 @endsection
 @section('js')
-    <script src="{{asset(getThemeAssets('dataTables/datatables.min.js', true))}}"></script>
     <script src="{{asset(getThemeAssets('layer/layer.js', true))}}"></script>
     <script type="text/javascript">
         $(document).on('click', '.destroy_item', function () {
             var _item = $(this);
-            var title = "{{trans('common.deleteTitle').trans('user.slug')}}？";
+            var title = "{{ trans('common.deleteTitle').trans('banner.slug') }}？";
             layer.confirm(title, {
-                btn: ['{{trans('common.yes')}}', '{{trans('common.no')}}'],
+                btn: ['{{ trans('common.yes') }}', '{{ trans('common.no') }}'],
                 icon: 5
             }, function (index) {
-                _item.children('form').submit();
-                layer.close(index);
+                // _item.children('form').submit();
+                $.ajax({
+                    url: _item.attr('data-url'),
+                    data: {_token: "{{ csrf_token() }}"},
+                    type: 'delete',
+                    success: function (e) {
+                        console.log(e);
+                        if (e.code != 0) {
+                            layer.alert(e.message);
+                            return false;
+                        }
+
+                        layer.alert(e.message, function () {
+                            location.reload(true);
+                        });
+                    }
+                });
             });
         });
     </script>
