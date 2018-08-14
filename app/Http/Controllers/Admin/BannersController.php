@@ -100,7 +100,11 @@ class BannersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $BannersModel = new BannersModel();
+
+        $data = $BannersModel->getFind($id);
+
+        return view(getThemeView('banner.edit'), ['data' => $data]);
     }
 
     /**
@@ -112,7 +116,37 @@ class BannersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'link' => 'required',
+        ], [
+            'title.required' => '请填写轮播标题',
+            'sex.required' => '请填写轮播链接',
+        ]);
+
+        $update = [];
+        if ($request->hasFile('src')) {
+            $resultImage = uploadImage($request->file('src'));
+            if (!$resultImage->status) {
+                flash($resultImage->message)->error();
+                return back();
+            }
+
+            $update = ['src' => $resultImage->path];
+        }
+
+        $data = array_merge($request->except('_token', '_method'), $update);
+
+        $BannersModel = new BannersModel();
+        $int = $BannersModel->saveData($data, $id);
+
+        if (!$int) {
+            flash('更新失败')->error();
+            return back();
+        }
+
+        flash('更新成功')->success();
+        return back();
     }
 
     /**
