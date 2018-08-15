@@ -305,10 +305,12 @@ if (!function_exists('uploadLocalhost')) {
         //定义图片上传路径
         $filedir = "uploadFile/image/";
 
+        //得到图片名
+        $name = $file->getClientOriginalName();
         //获取上传图片的后缀名
         $extension = $file->getClientOriginalExtension();
         //重新命名上传文件名字
-        $newImagesName = md5(time()) . random_int(5, 5) . "." . $extension;
+        $newImagesName = md5(time() . $name) . random_int(5, 5) . "." . $extension;
 
         //使用move方法移动文件
         $status = $file->move($filedir, $newImagesName);

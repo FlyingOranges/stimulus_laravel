@@ -25,7 +25,25 @@ class ArticlesModel extends Model
     }
 
     /**
-     * Tag 获取首页的文章信息(3小时更新)
+     * Tag 后台管理系统文章列表
+     *
+     * Users Flying Oranges
+     * CreateTime 2018/8/14
+     * @param $title
+     * @return mixed
+     */
+    public function getAdminList($title)
+    {
+        return $this->where('status', self::STATUS_NORMAL)
+            ->when($title, function ($query) use ($title) {
+                $query->where('title', 'like', "%{$title}%");
+            })
+            ->orderBy('updated_at', 'desc')
+            ->paginate(5, ['id', 'cover', 'title', 'intr', 'created_at', 'updated_at']);
+    }
+
+    /**
+     * Tag 获取首页的文章信息(10m更新)
      *
      * Users Flying Oranges
      * CreateTime 2018/8/7
@@ -33,7 +51,7 @@ class ArticlesModel extends Model
      */
     public function getIndexArticle()
     {
-        $data = Cache::remember('GET_CACHE_INDEX_PAGE_ARTICLE_DATA', 60 * 3, function () {
+        $data = Cache::remember('GET_CACHE_INDEX_PAGE_ARTICLE_DATA', 10, function () {
             return $this->where('status', self::STATUS_NORMAL)
                 ->limit(8)
                 ->get(['id', 'cover', 'title', 'intr']);
@@ -43,7 +61,7 @@ class ArticlesModel extends Model
     }
 
     /**
-     * Tag 获取首页的文章信息(3小时更新)
+     * Tag 获取首页的文章信息(10m更新)
      *
      * Users Flying Oranges
      * CreateTime 2018/8/7
@@ -52,7 +70,7 @@ class ArticlesModel extends Model
      */
     public function getIndexArticleList($page)
     {
-        $data = Cache::remember('GET_CACHE_INDEX_PAGE_ARTICLE_DATA_PAGE_' . $page, 60 * 3, function () {
+        $data = Cache::remember('GET_CACHE_INDEX_PAGE_ARTICLE_DATA_PAGE_' . $page, 10, function () {
             return $this->where('status', self::STATUS_NORMAL)
                 ->paginate(3, ['id', 'cover', 'title', 'intr']);
         });

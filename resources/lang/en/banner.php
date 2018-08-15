@@ -15,5 +15,7 @@ return [
     'slug' => '轮播图',
     'viewList' => '轮播图列表',
     'link' => '链接',
-    'src' => '图片'
+    'src' => '图片',
+    'created_at' => '创建时间',
+    'updated_at' => '更新时间'
 ];

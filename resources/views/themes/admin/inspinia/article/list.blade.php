@@ -16,21 +16,21 @@
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>{!!trans('banner.title')!!}</h2>
+            <h2>{!! trans('articles.title') !!}</h2>
             <ol class="breadcrumb">
                 <li>
                     <a href="{{url('admin')}}">{!!trans('home.title')!!}</a>
                 </li>
                 <li class="active">
-                    <strong>{!!trans('banner.title')!!}</strong>
+                    <strong>{!!trans('articles.title')!!}</strong>
                 </li>
             </ol>
         </div>
         <div class="col-lg-2">
             <div class="title-action">
-                @if(haspermission('bannerscontroller.create'))
-                    <a href="{{route('banners.create')}}" class="btn btn-info">
-                        <i class="fa fa-plus"></i> {!!trans('common.create').trans('banner.slug')!!}
+                @if(haspermission('articlescontroller.create'))
+                    <a href="{{route('articles.create')}}" class="btn btn-info">
+                        <i class="fa fa-plus"></i> {!!trans('common.create').trans('articles.slug')!!}
                     </a>
                 @endif
             </div>
@@ -41,7 +41,7 @@
             <div class="col-lg-12">
                 <div class="ibox">
                     <div class="ibox-title">
-                        <h5>{!!trans('banner.title')!!}</h5>
+                        <h5>{!! trans('articles.title') !!}</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -63,7 +63,7 @@
                                             <label>
                                                 搜索:
                                                 <input type="search" class="form-control input-sm" name="search"
-                                                       placeholder="请输入轮播图标题" aria-controls="dataTableBuilder"
+                                                       placeholder="请输入文章标题" aria-controls="dataTableBuilder"
                                                        value="{{ $search or '' }}">
                                             </label>
 
@@ -79,7 +79,7 @@
                                         <thead>
                                         <tr role="row">
                                             <th>序号</th>
-                                            <th>图片</th>
+                                            <th>封面图</th>
                                             <th>标题</th>
                                             <th>链接</th>
                                             <th>创建时间</th>
@@ -93,23 +93,23 @@
                                             <tr role="row" class="odd">
                                                 <td>{{ $item->id }}</td>
                                                 <td>
-                                                    <img class="table-image" src="{{ getCover($item->src)->path }}">
+                                                    <img class="table-image" src="{{ getCover($item->cover)->path }}">
                                                 </td>
                                                 <td>{{ $item->title }}</td>
-                                                <td>{{ $item->link }}</td>
+                                                <td>{{ $item->intr }}</td>
                                                 <td>{{ $item->created_at }}</td>
                                                 <td>{{ $item->updated_at }}</td>
                                                 <td>
-                                                    <a href="{{ route('banners.show',['id'=>encodeId($item->id)]) }}"
+                                                    <a href="{{ route('articles.show',['id'=>encodeId($item->id)]) }}"
                                                        class="btn btn-xs btn-info tooltips">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
-                                                    <a href="{{ route('banners.edit',['id'=>encodeId($item->id)]) }}"
+                                                    <a href="{{ route('articles.edit',['id'=>encodeId($item->id)]) }}"
                                                        class="btn btn-xs btn-outline btn-warning tooltips">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
                                                     <a href="javascript:;"
-                                                       data-url="{{ route('banners.destroy',['id'=>encodeId($item->id)]) }}"
+                                                       data-url="{{ route('articles.destroy',['id'=>encodeId($item->id)]) }}"
                                                        class="btn btn-xs btn-outline btn-danger tooltips destroy_item">
                                                         <i class="fa fa-trash"></i>
                                                     </a>

@@ -16,6 +16,10 @@ Route::group([], function ($router) {
      */
     $router->group(['namespace' => 'Admin'], function ($router) {
 
+        //后台富文本编辑器上传图片
+        $router->post('/wangeditor/upload/image', 'HomeController@wangEditorUploadImage')
+            ->name('wangEditor.upload.image');
+
         $router->group(['middleware' => ['auth', 'check.permission', 'language']], function ($router) {
 
             $router->post('/setting/admin', 'UserController@setting')->name('admin.setting.adminer');
@@ -34,6 +38,9 @@ Route::group([], function ($router) {
 
             // banner
             $router->resource('banners', 'BannersController');
+
+            // articles
+            $router->resource('articles', 'ArticlesController');
         });
 
     });
