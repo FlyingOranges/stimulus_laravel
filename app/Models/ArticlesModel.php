@@ -25,6 +25,60 @@ class ArticlesModel extends Model
     }
 
     /**
+     * Tag 编辑文章信息
+     *
+     * Users Flying Oranges
+     * CreateTime 2018/8/15
+     * @param $update
+     * @param $id
+     * @return mixed
+     */
+    public function edit($update, $id)
+    {
+        $int = $this->where('id', decodeId($id))->update($update);
+
+        if ($int) {
+            //删除后台单篇文章缓存
+            Cache::forget('GET_CACHE_ARTICLES_ID_' . $id);
+            //删除前台单篇文章缓存
+            Cache::forget('GET_CACHE_ARTICLE_INFO_ID_' . decodeId($id));
+        }
+
+        return $int;
+    }
+
+    /**
+     * Tag 后台获取单个篇文章信息
+     *
+     * Users Flying Oranges
+     * CreateTime 2018/8/15
+     * @param $id
+     * @return mixed
+     */
+    public function show($id)
+    {
+        $data = Cache::remember('GET_CACHE_ARTICLES_ID_' . $id, 10, function () use ($id) {
+            return $this->where('id', decodeId($id))
+                ->first(['id', 'cover', 'title', 'intr', 'conent', 'created_at', 'updated_at']);
+        });
+
+        return $data;
+    }
+
+    /**
+     * Tag 创建新数据
+     *
+     * Users Flying Oranges
+     * CreateTime 2018/8/15
+     * @param $data
+     * @return mixed
+     */
+    public function createdData($data)
+    {
+        return $this->create($data);
+    }
+
+    /**
      * Tag 后台管理系统文章列表
      *
      * Users Flying Oranges

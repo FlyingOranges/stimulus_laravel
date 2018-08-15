@@ -144,7 +144,7 @@
     <script type="text/javascript">
         $(document).on('click', '.destroy_item', function () {
             var _item = $(this);
-            var title = "{{ trans('common.deleteTitle').trans('banner.slug') }}？";
+            var title = "{{ trans('common.deleteTitle').trans('articles.slug') }}？";
             layer.confirm(title, {
                 btn: ['{{ trans('common.yes') }}', '{{ trans('common.no') }}'],
                 icon: 5

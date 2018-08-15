@@ -3,32 +3,30 @@
     <link href="{{asset(getThemeAssets('iCheck/custom.css', true))}}" rel="stylesheet">
     <style type="text/css">
         .img-default {
-            width: 60px;
+            width: 50px;
         }
     </style>
 @endsection
 @section('content')
-    @inject('userPresenter','App\Repositories\Presenters\Admin\UserPresenter')
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>{!! trans('articles.title') !!}</h2>
             <ol class="breadcrumb">
                 <li>
-                    <a href="javascript:;">{!! trans('articles.title') !!}</a>
+                    <a href="javasctipt:;">{!! trans('home.title') !!}</a>
                 </li>
                 <li>
-                    <a href="{{ route('articles.index') }}">{!! trans('articles.viewList') !!}</a>
+                    <a href="{{ route('articles.index') }}">{!! trans('articles.title') !!}</a>
                 </li>
                 <li class="active">
-                    <strong>{!! trans('common.create').trans('articles.slug') !!}</strong>
+                    <strong>{!! trans('common.edit').trans('articles.slug') !!}</strong>
                 </li>
             </ol>
         </div>
         <div class="col-lg-2">
             <div class="title-action">
                 <a class="btn btn-white" href="{{ route('articles.index') }}">
-                    <i class="fa fa-reply"></i>
-                    {!! trans('common.cancel') !!}
+                    <i class="fa fa-reply"></i> {!! trans('common.cancel') !!}
                 </a>
             </div>
         </div>
@@ -50,15 +48,15 @@
                     </div>
                     <div class="ibox-content">
                         @include('flash::message')
-                        <form method="post" action="{{ route('articles.store') }}" class="form-horizontal"
-                              enctype="multipart/form-data" id="articles-form">
-
-                            {{csrf_field()}}
-
+                        <form method="post" action="{{ route('articles.update', [encodeId($data->id, 'id')]) }}"
+                              class="form-horizontal" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            {{ method_field('PUT') }}
                             <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
-                                <label class="col-sm-2 control-label">{{trans('articles.name')}}</label>
+                                <label class="col-sm-2 control-label">{{ trans('articles.name') }}</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="title" value="{{ old('title') }}"
+                                    <input type="text" class="form-control" name="title"
+                                           value="{{ old('name', $data->title) }}"
                                            placeholder="{{ trans('articles.name') }}">
                                     @if ($errors->has('title'))
                                         <span class="help-block m-b-none text-danger">{{ $errors->first('title') }}</span>
@@ -70,20 +68,22 @@
                             <div class="form-group{{ $errors->has('intr') ? ' has-error' : '' }}">
                                 <label class="col-sm-2 control-label">{{ trans('articles.intr') }}</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="intr" value="{{ old('intr') }}"
+                                    <input type="text" class="form-control" name="intr"
+                                           value="{{ old('intr', $data->intr) }}"
                                            placeholder="{{ trans('articles.intr') }}">
                                     @if ($errors->has('intr'))
                                         <span class="help-block m-b-none text-danger">{{ $errors->first('intr') }}</span>
                                     @endif
                                 </div>
                             </div>
+
                             <div class="hr-line-dashed"></div>
                             <div class="form-group{{ $errors->has('cover') ? ' has-error' : '' }}">
                                 <label class="col-sm-2 control-label">{{ trans('articles.cover') }}</label>
                                 <div class="col-sm-10">
-                                    <img src="{{ asset('/images/1.jpeg') }}" class="img-default">
-                                    <input type="file" class="form-control img-banner" name="cover"
-                                           style="display: none;">
+                                    <img src="{{ old('cover', getCover($data->cover)->path) }}" class="img-default">
+
+                                    <input type="file" class="img-banner" name="cover" style="display: none;">
                                     @if ($errors->has('cover'))
                                         <span class="help-block m-b-none text-danger">{{ $errors->first('cover') }}</span>
                                     @endif
@@ -95,7 +95,7 @@
                                 <label class="col-sm-2 control-label">{{ trans('articles.conent') }}</label>
                                 <div class="col-sm-10">
                                     <div id="editor">
-                                        <p>山有木兮 木有枝叶 心悦君兮 君不知</p>
+                                        {!! $data->conent !!}
                                     </div>
                                     <textarea name="conent" id="conent-textarea" style="display: none;"></textarea>
                                     @if ($errors->has('conent'))
@@ -104,14 +104,16 @@
                                 </div>
                             </div>
 
+
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-2">
                                     <a class="btn btn-white"
-                                       href="{{ route('articles.index') }}">{!!trans('common.cancel')!!}</a>
-                                    @if(haspermission('articlescontroller.store'))
-                                        <button class="btn btn-primary" id="sub-btn"
-                                                type="submit">{!! trans('common.create') !!}</button>
+                                       href="{{ route('articles.index') }}">{!! trans('common.cancel') !!}</a>
+                                    @if(haspermission('articlescontroller.update'))
+                                        <button class="btn btn-primary" type="submit">
+                                            {!! trans('common.edit') !!}
+                                        </button>
                                     @endif
                                 </div>
                             </div>
@@ -121,7 +123,6 @@
             </div>
         </div>
     </div>
-    {{--@include(getThemeView('user.modal'))--}}
 @endsection
 @section('js')
     <script src="{{ asset('/js/wangEditor.min.js') }}"></script>
@@ -148,7 +149,7 @@
         }
         editor.create();
         // 初始化 textarea 的值
-        $text1.val(editor.txt.html());
+        $text1.val(editor.txt.html())
 
         $(document).ready(function () {
             $('.img-default').on('click', function () {
