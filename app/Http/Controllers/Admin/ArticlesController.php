@@ -123,7 +123,7 @@ class ArticlesController extends BaseController
             }
         }
 
-        $update = array_merge($update, $request->except('_token', '_method'));
+        $update = array_merge($update, $request->except('_token', '_method', 'cover'));
         $result = $this->ArticlesModel->edit($update, $id);
 
         if (!$result) {
