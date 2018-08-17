@@ -235,18 +235,18 @@ if (!function_exists('getCover')) {
     }
 }
 
-if (!function_exists('myLog')) {
+if (!function_exists('consoleLog')) {
     /**
      * 打印日志
      *
      * @param $val
      */
-    function myLog($val)
+    function consoleLog($val)
     {
         if (is_array($val)) {
             $val = var_export($val, true);
         }
-        file_put_contents('myLog.txt', date('Y-m-d H:i:s', time()) . '  myLog:  ' . $val . "\r\n", FILE_APPEND);
+        file_put_contents('log.txt', date('Y-m-d H:i:s', time()) . '  log:  ' . $val . "\r\n", FILE_APPEND);
     }
 }
 
